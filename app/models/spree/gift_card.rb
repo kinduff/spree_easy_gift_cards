@@ -21,8 +21,8 @@ class Spree::GiftCard < ActiveRecord::Base
     }
   }
 
-  def add_default_data
-    if self.data.blank?
+  def add_default_data(reset=false)
+    if reset or self.data.blank?
       self.data = GIFT_CARD_DEFAULT_VALUES
     end
   end

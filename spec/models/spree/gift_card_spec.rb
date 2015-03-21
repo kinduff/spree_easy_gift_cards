@@ -11,15 +11,22 @@ RSpec.describe Spree::GiftCard, type: :model do
     expect(gift_card.product.present?).to be_truthy
   end
 
-  it "adds data before create when empty data" do
-    expect(gift_card).to receive(:add_default_data)
-    expect(gift_card.data).to_not be_empty
-    gift_card.run_callbacks(:create)
-  end
+  context :add_default_data do
+    it "adds data before create when empty data" do
+      expect(gift_card).to receive(:add_default_data)
+      expect(gift_card.data).to_not be_empty
+      gift_card.run_callbacks(:create)
+    end
 
-  it "assigns custom data when create" do
-    expect(gift_card_custom_data).to_not receive(:add_default_data)
-    expect(gift_card_custom_data.data.deep_symbolize_keys.keys).to eq(custom_data.keys)
+    it "assigns custom data when create" do
+      expect(gift_card_custom_data).to_not receive(:add_default_data)
+      expect(gift_card_custom_data.data.deep_symbolize_keys.keys).to eq(custom_data.keys)
+    end
+
+    it "resets to default data if reset is true" do
+      gift_card_custom_data.add_default_data(true)
+      expect(gift_card_custom_data.data).to eq(gift_card.data)
+    end
   end
 
   context :fix_data do
