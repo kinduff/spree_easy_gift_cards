@@ -12,8 +12,10 @@ RSpec.describe Spree::Product, type: :model do
     expect(product.gift_card.present?).to be_truthy
   end
 
-  it "should be gift card" do
-    product.create_gift_card
-    expect(product.gift_card?).to be_truthy
+  context :gift_card? do
+    it "returns true if gift card is present" do
+      product.create_gift_card
+      expect(product.gift_card?).to be_truthy
+    end
   end
 end
