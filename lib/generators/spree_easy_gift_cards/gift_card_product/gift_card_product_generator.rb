@@ -1,6 +1,12 @@
 module SpreeEasyGiftCards
   module Generators
     class GiftCardProductGenerator < Rails::Generators::Base
+      def destroy_first
+        Spree::ShippingCategory.find_by(name: 'Not Shippable').try(:destroy)
+        Spree::ShippingMethod.find_by(admin_name: 'Digital').try(:destroy)
+        gift_card_product.try(:destroy)
+      end
+
       def add_shipping_configurations
         shipping_category = Spree::ShippingCategory.create(name: 'Not Shippable')
         shipping_method = Spree::ShippingMethod.new(name: 'Send by e-amil', admin_name: 'Digital')
