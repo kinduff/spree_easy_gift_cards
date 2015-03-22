@@ -48,6 +48,6 @@ describe SpreeEasyGiftCards::Generators::GiftCardProductGenerator, type: :genera
     end
 
     def shipping_method
-      Spree::ShippingMethod.find_by(name: 'Digital')
+      Spree::ShippingMethod.find_by(admin_name: 'Digital')
     end
 end

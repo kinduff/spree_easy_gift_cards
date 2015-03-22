@@ -3,7 +3,7 @@ module SpreeEasyGiftCards
     class GiftCardProductGenerator < Rails::Generators::Base
       def add_shipping_configurations
         shipping_category = Spree::ShippingCategory.create(name: 'Not Shippable')
-        shipping_method = Spree::ShippingMethod.new(name: 'Digital')
+        shipping_method = Spree::ShippingMethod.new(name: 'Send by e-amil', admin_name: 'Digital')
         shipping_method.build_calculator(type: "Spree::Calculator::Shipping::FlatRate")
         shipping_method.shipping_categories << shipping_category
         shipping_method.zones << Spree::Zone.all
