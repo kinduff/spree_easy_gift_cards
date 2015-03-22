@@ -7,7 +7,6 @@ describe SpreeEasyGiftCards::Generators::GiftCardProductGenerator, type: :genera
 
   before(:all) do
     prepare_destination
-    prepare_test_environment
     run_generator
   end
 
@@ -24,10 +23,6 @@ describe SpreeEasyGiftCards::Generators::GiftCardProductGenerator, type: :genera
   end
 
   private
-    def prepare_test_environment
-      FactoryGirl.create :shipping_category, name: 'Default'
-    end
-
     def gift_card_product
       Spree::Product.find_by(slug: 'gift-card')
     end
