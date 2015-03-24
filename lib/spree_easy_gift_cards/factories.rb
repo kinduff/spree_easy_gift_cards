@@ -3,5 +3,6 @@ FactoryGirl.define do
     product
     data {}
     user
+    order
   end
 end
