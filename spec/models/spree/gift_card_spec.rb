@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe Spree::GiftCard, type: :model do
-  let(:gift_card) { create :gift_card }
+  let(:user) { create :user }
+  let(:gift_card) { create :gift_card, user: user }
   let(:custom_data) { {:foo => 'bar'} }
   let(:good_custom_data) { {:foo => {:label => 'Foo', :value => 'Bar'} } }
   let(:gift_card_custom_data) { create :gift_card, data: custom_data }
@@ -9,6 +10,10 @@ RSpec.describe Spree::GiftCard, type: :model do
 
   it "belongs to a product" do
     expect(gift_card.product.present?).to be_truthy
+  end
+
+  it "belongs to a user" do
+    expect(gift_card.user).to eq(user)
   end
 
   context :add_default_data do
