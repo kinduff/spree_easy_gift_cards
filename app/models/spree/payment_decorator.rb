@@ -12,6 +12,6 @@ Spree::Payment.class_eval do
   end
 
   def auto_ship_digital_shipments?
-    true # make configurable
+    SpreeEasyGiftCards.auto_ship_digital_shipments
   end
 end

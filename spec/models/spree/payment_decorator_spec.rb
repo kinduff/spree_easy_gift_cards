@@ -52,6 +52,9 @@ describe Spree::Payment, :type => :model do
         context 'for entire amount' do
           before do
             expect(payment.payment_method).to receive(:capture).with(payment.display_amount.money.cents, payment.response_code, anything).and_return(success_response)
+            SpreeEasyGiftCards.configuration do |config|
+              config.auto_ship_digital_shipments = true
+            end
           end
 
           it "should call ship_digital_shipments" do
@@ -63,6 +66,14 @@ describe Spree::Payment, :type => :model do
             payment.order.shipments << shipment
             payment.capture!
             expect(payment.order.shipments.digitals.first.shipped?).to be_truthy
+          end
+          it "should not ship digital shipments if config.auto_ship_digital_shipments is false" do
+            SpreeEasyGiftCards.configuration do |config|
+              config.auto_ship_digital_shipments = false
+            end
+            payment.order.shipments << shipment
+            payment.capture!
+            expect(payment.order.shipments.digitals.first.shipped?).to be_falsy
           end
         end
       end
