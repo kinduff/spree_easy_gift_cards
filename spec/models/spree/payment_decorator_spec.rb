@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Spree::Payment, :type => :model do
-  let(:order) { Spree::Order.create }
+  let(:order) { create :order }
 
   let(:shipping_method) { create(:shipping_method, name: 'Digital', admin_name: 'Digital') }
 
