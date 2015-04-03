@@ -1,0 +1,30 @@
+<%= form_for :order, :url => populate_orders_path do |f| %>
+  <div class='row' id='inside-product-cart-form' data-hook='inside_product_cart_form' itemprop='offers' itemscope itemtype='http://schema.org/Offer'>
+    <% if @product.price_in(current_currency) and !@product.price.nil? %>
+      <div data-hook='gift_card_fields' class='col-md-6'>
+        <% SpreeEasyGiftCards.fields.each do |field, attributes| %>
+          <div class='form-group'>
+            <label for='options_gift_card_<%=field %>'><%= attributes[:label] %></label>
+            <%= content_tag(attributes[:tag], nil, { name: 'options[gift_card]['+field.to_s+']', class: 'form-control' }.merge(attributes[:options] || {}) ) { attributes[:options][:content] } %>
+          </div>
+        <% end %>
+        <%= hidden_field_tag :quantity, 1 %>
+        <div class='form-group'>
+          <div class='input-group'>
+            <%= select_tag 'variant_id', options_for_select(@product.variants.collect{|v| [v.price_in(current_currency).money, v.id] }), class: 'title form-control' %>
+            <span class='input-group-btn'>
+              <%= button_tag :class => 'btn btn-success', :id => 'add-to-cart-button', :type => :submit do %>
+                <%= Spree.t(:add_to_cart) %>
+              <% end %>
+            </span>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div id="product-price">
+        <br>
+        <div><span class="price selling" itemprop="price"><%= Spree.t('product_not_available_in_this_currency') %></span></div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
