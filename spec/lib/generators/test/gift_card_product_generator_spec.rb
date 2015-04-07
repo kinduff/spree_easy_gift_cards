@@ -5,21 +5,18 @@ describe SpreeEasyGiftCards::Generators::GiftCardProductGenerator, type: :genera
   destination File.expand_path("../../tmp", File.dirname(__FILE__))
 
 
-  before(:all) do
+  before(:each) do
     prepare_destination
     run_generator
   end
 
   it "creates a gift card product" do
     expect(gift_card_product).to_not be_nil
+    expect(gift_card_product.gift_card?).to be_truthy
   end
 
   it "creates gift card variants" do
     expect(gift_card_product.variants.count).to eq(5)
-  end
-
-  it "creates a gift card association from product" do
-    expect(gift_card_product.gift_card).to_not be_nil
   end
 
   it "creates a 'Not Shippable' shipping category" do

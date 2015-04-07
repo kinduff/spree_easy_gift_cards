@@ -1,11 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe Spree::Variant, type: :model do
-  let(:product) { create :product }
+  let(:product) { create :product, slug: 'gift-card' }
   let(:variant) { create :variant, product: product }
-  before(:each) do
-    product.create_gift_card
-  end
 
   context :gift_card? do
     it "returns true if is a gift card" do

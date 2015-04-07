@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'generators/spree_easy_gift_cards/gift_card_product/gift_card_product_generator'
 
 describe "Visiting Products", type: :feature, inaccessible: true do
-  let(:product) { Spree::Product.find_by_name("Gift Card") }
+  let(:product) { Spree::Product.find_by(slug: 'gift-card') }
 
   before do
     SpreeEasyGiftCards::Generators::GiftCardProductGenerator.start
