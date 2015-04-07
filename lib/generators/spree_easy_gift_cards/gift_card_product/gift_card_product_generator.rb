@@ -36,10 +36,6 @@ module SpreeEasyGiftCards
         gift_card_product.variants.create(gift_card_variants)
       end
 
-      def add_gift_card_to_product
-        gift_card_product.create_gift_card
-      end
-
       private
         def gift_card_product
           Spree::Product.find_by(slug: 'gift-card')

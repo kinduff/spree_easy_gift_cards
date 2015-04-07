@@ -33,4 +33,5 @@ module SpreeEasyGiftCards
       }
     }
   }
+  define_setting :gift_card_product, 'gift-card'
 end
