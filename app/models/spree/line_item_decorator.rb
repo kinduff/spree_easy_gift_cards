@@ -1,6 +1,8 @@
 Spree::LineItem.class_eval do
   has_one :gift_card, class_name: 'Spree::GiftCard'
 
+  scope :gift_cards, -> { includes(:variant => [:product]).select(&:gift_card?).collect(&:gift_card) }
+
   def gift_card?
     product.gift_card?
   end
