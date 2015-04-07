@@ -3,6 +3,8 @@ class Spree::GiftCard < ActiveRecord::Base
 
   store :data
 
+  validate :verify_data
+
   def order
     line_item.order
   end
@@ -10,4 +12,14 @@ class Spree::GiftCard < ActiveRecord::Base
   def user
     order.user
   end
+
+  def data
+    self[:data].try :symbolize_keys
+  end
+
+  private
+    def verify_data
+      config_keys = SpreeEasyGiftCards.fields.keys
+      errors.add(:data, "invalid") unless config_keys & config_keys == data.keys
+    end
 end

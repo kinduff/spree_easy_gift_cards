@@ -3,6 +3,8 @@ Spree::LineItem.class_eval do
 
   scope :gift_cards, -> { includes(:variant => [:product]).select(&:gift_card?).collect(&:gift_card) }
 
+  validate :validate_gift_card_data
+
   def gift_card?
     product.gift_card?
   end
