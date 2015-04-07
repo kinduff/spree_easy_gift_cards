@@ -7,6 +7,8 @@ Spree::OrderContents.class_eval do
   private
     # Update with 3-0-stable
     def add_gift_card_item(variant, quantity, options = {})
+      Spree::PermittedAttributes.line_item_attributes.push({:gift_card => SpreeEasyGiftCards.fields.keys})
+
       opts = { currency: order.currency }.merge ActionController::Parameters.new(options).
                                           permit(Spree::PermittedAttributes.line_item_attributes)
       line_item = order.line_items.new(quantity: quantity,
