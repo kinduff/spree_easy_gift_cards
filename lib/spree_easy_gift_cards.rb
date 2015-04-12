@@ -4,7 +4,7 @@ require 'helpers/configuration'
 
 module SpreeEasyGiftCards
   extend Configuration
-  define_setting :auto_ship_digital_shipments, false
+  define_setting :auto_ship_digital_shipments, true
   define_setting :fields, {
     :recipient_name => {
       :label => "Recipient name",
