@@ -26,6 +26,11 @@ RSpec.describe Spree::LineItem, type: :model do
         line_item.options = {"gift_card" => {"invalid_field" => false} }
         expect(line_item).to be_invalid
       end
+
+      it "can handle updating a line item with no currency" do
+        allow(line_item.order).to receive(:currency) { nil }
+        line_item.options = { currency: nil }
+      end
     end
   end
 end
