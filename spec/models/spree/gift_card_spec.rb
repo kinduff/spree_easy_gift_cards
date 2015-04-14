@@ -20,6 +20,22 @@ RSpec.describe Spree::GiftCard, type: :model do
     expect(gift_card.user).to eq(user)
   end
 
+  context :sanitize_data do
+    it "calls before save" do
+      expect(gift_card).to receive(:sanitize_data)
+      gift_card.run_callbacks(:save)
+    end
+
+    it "removes tags" do
+      good_data = gift_card.data
+      with_tags = good_data.map{ |k,v| {k => "<p>#{v}</p>"} }.reduce(:merge)
+      gift_card.data = with_tags
+      gift_card.save
+      expect(gift_card.data).to eq(good_data)
+    end
+  end
+
+
   context :valid do
     it "match the same keys as gem fields keys" do
       valid_keys = Hash[SpreeEasyGiftCards.fields.keys.map {|v| [v,v.upcase]}]
