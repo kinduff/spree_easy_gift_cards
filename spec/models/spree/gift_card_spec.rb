@@ -19,4 +19,20 @@ RSpec.describe Spree::GiftCard, type: :model do
   it "returns a user" do
     expect(gift_card.user).to eq(user)
   end
+
+  context :valid do
+    it "match the same keys as gem fields keys" do
+      valid_keys = Hash[SpreeEasyGiftCards.fields.keys.map {|v| [v,v.upcase]}]
+      gift_card.data = valid_keys
+      expect(gift_card).to be_valid
+    end
+  end
+
+  context :invalid do
+    it "doesn't match the same keys as gem fields keys" do
+      invalid_keys = {:invalid_keys => true}
+      gift_card.data = invalid_keys
+      expect(gift_card).to be_invalid
+    end
+  end
 end

@@ -16,9 +16,15 @@ RSpec.describe Spree::LineItem, type: :model do
       expect(line_item.gift_card?).to be_truthy
     end
     context "#options=" do
-      it "builds a gift card" do
+      it "is valid if gift card fields match" do
         line_item.options = {"gift_card" => {"recipient_name"=>"Alejandro AR", "recipient_email"=>"abarcadabra@gmail.com", "message"=>"Lorem Ipsum Dolor sit amet"}}
         expect(line_item.gift_card).to_not be_nil
+        expect(line_item).to be_valid
+      end
+
+      it "is not valid if gift card fields do not match" do
+        line_item.options = {"gift_card" => {"invalid_field" => false} }
+        expect(line_item).to be_invalid
       end
     end
   end
