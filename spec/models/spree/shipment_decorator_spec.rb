@@ -43,20 +43,18 @@ describe Spree::Shipment, :type => :model do
     end
 
     it "should call after_ship" do
-      shipment.state = 'pending'
-      expect(shipment).to receive :after_ship
-      allow(shipment).to receive_messages determine_state: 'shipped'
-      expect(shipment).to receive(:update_columns).with(state: 'shipped', updated_at: kind_of(Time))
-      shipment.update!(order)
+      allow(shipment).to receive(:send_shipped_email)
+      allow(shipment).to receive(:update_order_shipment_state)
+      expect(shipment).to receive(:after_ship)
+      shipment.ship!
     end
 
     it "should call send_gift_cards_emails" do
-      pending "unable to test second callback after transition from pending -> shipped"
-      shipment.state = 'pending'
-      expect(shipment).to receive :send_gift_cards_emails
-      allow(shipment).to receive_messages determine_state: 'shipped'
-      expect(shipment).to receive(:update_columns).with(state: 'shipped', updated_at: kind_of(Time))
-      shipment.update!(order)
+      allow(shipment).to receive(:send_shipped_email)
+      allow(shipment).to receive(:update_order_shipment_state)
+      allow(shipment).to receive(:after_ship)
+      expect(shipment).to receive(:send_gift_cards_emails)
+      shipment.ship!
     end
   end
 end
