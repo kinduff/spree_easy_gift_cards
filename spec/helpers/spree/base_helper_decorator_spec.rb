@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 module Spree
-  describe ProductsHelper, :type => :helper do
-    include ProductsHelper
+  describe BaseHelper, :type => :helper do
+    include BaseHelper
     let(:order) { create :order }
     let(:product) { create :product, slug: 'gift-card' }
     let(:variant) { create :variant, product: product }
