@@ -28,4 +28,16 @@ class Spree::GiftCard < ActiveRecord::Base
     def sanitize_data
       self.data = data.map{ |k,v| {k => v.gsub(/<[^>]*>/ui,'')} }.reduce(:merge)
     end
+
+    def generate_code
+      length = SpreeEasyGiftCards.code_length-1 # minus one because programming
+      return loop do
+        code = encrypted_code[0..length]
+        break code unless Spree::Promotion.exists?(code: code)
+      end
+    end
+
+    def encrypted_code
+      Digest::SHA2.hexdigest([Time.now, rand].join)
+    end
 end

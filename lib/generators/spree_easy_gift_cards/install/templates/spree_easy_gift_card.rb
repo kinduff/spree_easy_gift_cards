@@ -3,6 +3,10 @@ SpreeEasyGiftCards.configuration do |config|
   # The product.gift_card? method is going to compare this value to see if it's a gift card
   # or not. The intention was to avoid adding a new field/table to the database.
   config.gift_card_product = 'gift-card'
+
+  # ==> Gift Card code length
+  # Uses Digest::SHA2 encryption by default, set your desire code length between 1 and 64
+  config.code_length = 30
   
   # ==> Gift Card frontend fields
   # Gift card fields the user is going to personalize. First key is the default field name.

@@ -51,4 +51,15 @@ RSpec.describe Spree::GiftCard, type: :model do
       expect(gift_card).to be_invalid
     end
   end
+
+  context :generate_code do
+    it "returns a random code with length set on configuration" do
+      code_length = 30
+      SpreeEasyGiftCards.configuration do |config|
+        config.code_length = code_length
+      end
+      code = gift_card.send(:generate_code)
+      expect(code.size).to eq(code_length)
+    end
+  end
 end

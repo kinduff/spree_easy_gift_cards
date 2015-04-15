@@ -34,4 +34,5 @@ module SpreeEasyGiftCards
     }
   }
   define_setting :gift_card_product, 'gift-card'
+  define_setting :code_length, 30
 end
