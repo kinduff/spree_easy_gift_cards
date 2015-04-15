@@ -15,7 +15,7 @@ RSpec.describe Spree::GiftCardMailer do
     end
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq(["foo@bar.com"])
+      expect(mail.to).to eq([gift_card.recipient_email])
     end
 
     it 'assigns @gift_card' do
