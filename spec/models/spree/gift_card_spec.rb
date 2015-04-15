@@ -47,6 +47,10 @@ RSpec.describe Spree::GiftCard, type: :model do
     it "sends a gift card email" do
       expect(ActionMailer::Base.deliveries.count).to eq(1)
     end
+
+    it "generates a promotion" do
+      expect(Spree::Promotion.all.count).to eq(1)
+    end
   end
 
   context :sanitize_data do
@@ -89,6 +93,18 @@ RSpec.describe Spree::GiftCard, type: :model do
       end
       code = gift_card.send(:generate_code)
       expect(code.size).to eq(code_length)
+    end
+  end
+
+  context :generate_promotion do
+    it "generates a valid promotion" do
+      promotion = gift_card.send(:generate_promotion)
+      calculator = promotion.promotion_actions.first.calculator
+      expect(promotion.name).to eq('Gift Card')
+      expect(promotion.actions.count).to eq(1)
+      expect(promotion.promotion_actions.count).to eq(1)
+      expect(calculator.type).to eq("Spree::Calculator::FlatRate")
+      expect(calculator.preferences[:amount]).to eq(gift_card.amount)
     end
   end
 end

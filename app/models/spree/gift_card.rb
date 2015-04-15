@@ -25,6 +25,7 @@ class Spree::GiftCard < ActiveRecord::Base
 
   def activate
     self.update_attribute(:code, generate_code)
+    generate_promotion
     Spree::GiftCardMailer.gift_card_email(self).deliver_now
   end
 
@@ -52,5 +53,20 @@ class Spree::GiftCard < ActiveRecord::Base
 
     def encrypted_code
       Digest::SHA2.hexdigest([Time.now, rand].join)
+    end
+
+    def generate_promotion
+      promo = Spree::Promotion.create(
+        name: "Gift Card",
+        description: "$#{self.amount} Gift Card to: #{self.recipient_email} - Automatically Generated",
+        match_policy: 'all',
+        usage_limit: 1,
+        code: self.code
+      )
+      promo.promotion_actions <<
+        Spree::Promotion::Actions::CreateAdjustment.create(
+          calculator: Spree::Calculator::FlatRate.new(preferred_amount: self.amount)
+        )
+      return promo
     end
 end
