@@ -3,3 +3,7 @@ en:
     gift_card_mailer:
       gift_card_email:
         subject: "Gift Card"
+        greeting: "Greetings!"
+        message: "You just received a Gift Card."
+        instructions: "To use and activate this gift card, you'll need to go and enter the following Gift Card Code during checkout."
+        thanks: "Thank you and see you soon!"

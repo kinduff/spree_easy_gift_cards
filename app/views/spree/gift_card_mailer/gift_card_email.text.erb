@@ -1,0 +1,19 @@
+<%= Spree.t('gift_card_mailer.gift_card_email.greeting') %>
+
+<%= Spree.t('gift_card_mailer.gift_card_email.message') %>
+
+============================================================
+Sender: <%= @order.bill_address.full_name %> (<%= @order.email %>)
+<% @gift_card.data.each do |key, value| %>
+<%= key.to_s.humanize %>: <%= value %>
+<% end %>
+Gift Card Amount: <%= Spree::Money.new(@gift_card.amount, currency: @order.currency) %>
+============================================================
+
+<%= Spree.t('gift_card_mailer.gift_card_email.instructions') %>
+
+============================================================
+Gift Card Code: <%= @gift_card.code %>
+============================================================
+
+<%= Spree.t('gift_card_mailer.gift_card_email.thanks') %>

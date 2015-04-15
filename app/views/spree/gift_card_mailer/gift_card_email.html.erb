@@ -1,1 +1,53 @@
-=@gift_card.id
+<table>
+  <tr>
+    <td>
+      <p class="lede">
+        <%= Spree.t('gift_card_mailer.gift_card_email.greeting') %>
+      </p>
+    </td>
+    <td class="expander"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td>
+      <p>
+        <%= Spree.t('gift_card_mailer.gift_card_email.message') %>
+      </p>
+
+      <p>
+        <table>
+          <tr>
+            <td><b>Sender: </b><%= @order.bill_address.full_name %> (<%= @order.email %>)</td>
+          </tr>
+          <% @gift_card.data.each do |key, value| %>
+            <tr>
+              <td><b><%= key.to_s.humanize %>:</b> <%= value %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td><b>Gift Card Amount: </b><%= Spree::Money.new(@gift_card.amount, currency: @order.currency) %></td>
+          </tr>
+        </table>
+      </p>
+
+      <p>
+        <%= Spree.t('gift_card_mailer.gift_card_email.instructions') %>
+      </p>
+
+      <table>
+        <tr>
+          <td><b>Gift Card Code: </b><%= @gift_card.code %></td>
+        </tr>
+      </table>
+
+      <p>
+        <%= Spree.t('gift_card_mailer.gift_card_email.thanks') %>
+      </p>
+
+
+    </td>
+    <td class="expander"></td>
+  </tr>
+</table>
