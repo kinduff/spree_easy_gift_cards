@@ -19,6 +19,10 @@ class Spree::GiftCard < ActiveRecord::Base
     self[:data].try :symbolize_keys
   end
 
+  def recipient_email
+    data[:recipient_email] || user.email
+  end
+
   private
     def verify_data
       config_keys = SpreeEasyGiftCards.fields.keys

@@ -20,6 +20,17 @@ RSpec.describe Spree::GiftCard, type: :model do
     expect(gift_card.user).to eq(user)
   end
 
+  context :recipient_email do
+    it "returns recipient_email if available" do
+      expect(gift_card.recipient_email).to eq(gift_card.data[:recipient_email])
+    end
+
+    it "returns user email if recipient_email not available" do
+      gift_card.data = {:recipient_email => nil}.merge(gift_card.data.except(:recipient_email))
+      expect(gift_card.recipient_email).to eq(user.email)
+    end
+  end
+
   context :sanitize_data do
     it "calls before save" do
       expect(gift_card).to receive(:sanitize_data)
