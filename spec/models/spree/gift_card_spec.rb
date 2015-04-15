@@ -31,6 +31,14 @@ RSpec.describe Spree::GiftCard, type: :model do
     end
   end
 
+  context :activate do
+    it "generates and saves a random code and sends a gift card email" do
+      gift_card.activate
+      expect(gift_card.code).to_not be_nil
+      expect(ActionMailer::Base.deliveries.count).to eq(1)
+    end
+  end
+
   context :sanitize_data do
     it "calls before save" do
       expect(gift_card).to receive(:sanitize_data)

@@ -23,6 +23,11 @@ class Spree::GiftCard < ActiveRecord::Base
     data[:recipient_email] || user.email
   end
 
+  def activate
+    self.update_attribute(:code, generate_code)
+    Spree::GiftCardMailer.gift_card_email(self).deliver_now
+  end
+
   private
     def verify_data
       config_keys = SpreeEasyGiftCards.fields.keys
