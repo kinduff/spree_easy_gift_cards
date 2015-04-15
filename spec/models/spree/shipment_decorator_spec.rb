@@ -37,7 +37,7 @@ describe Spree::Shipment, :type => :model do
 
   context "when shipment state changes to shipped" do
     before do
-      allow_any_instance_of(Spree::ShipmentHandler).to receive(:send_gift_cards_emails)
+      allow_any_instance_of(Spree::ShipmentHandler).to receive(:activate_gift_cards)
       allow_any_instance_of(Spree::ShipmentHandler).to receive(:send_shipped_email)
       allow_any_instance_of(Spree::ShipmentHandler).to receive(:update_order_shipment_state)
     end
@@ -49,11 +49,11 @@ describe Spree::Shipment, :type => :model do
       shipment.ship!
     end
 
-    it "should call send_gift_cards_emails" do
+    it "should call activate_gift_cards" do
       allow(shipment).to receive(:send_shipped_email)
       allow(shipment).to receive(:update_order_shipment_state)
       allow(shipment).to receive(:after_ship)
-      expect(shipment).to receive(:send_gift_cards_emails)
+      expect(shipment).to receive(:activate_gift_cards)
       shipment.ship!
     end
   end
