@@ -28,6 +28,10 @@ class Spree::GiftCard < ActiveRecord::Base
     Spree::GiftCardMailer.gift_card_email(self).deliver_now
   end
 
+  def amount
+    self.line_item.price
+  end
+
   private
     def verify_data
       config_keys = SpreeEasyGiftCards.fields.keys

@@ -31,6 +31,10 @@ RSpec.describe Spree::GiftCard, type: :model do
     end
   end
 
+  it "returns the amount" do
+    expect(gift_card.amount).to eq(line_item.price)
+  end
+
   context :activate do
     before(:each) do
       gift_card.activate
