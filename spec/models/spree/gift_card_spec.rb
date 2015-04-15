@@ -32,9 +32,15 @@ RSpec.describe Spree::GiftCard, type: :model do
   end
 
   context :activate do
-    it "generates and saves a random code and sends a gift card email" do
+    before(:each) do
       gift_card.activate
+    end
+
+    it "generates and saves a random code" do
       expect(gift_card.code).to_not be_nil
+    end
+
+    it "sends a gift card email" do
       expect(ActionMailer::Base.deliveries.count).to eq(1)
     end
   end
