@@ -1,1 +1,5 @@
 en:
+  spree:
+    gift_card_mailer:
+      gift_card_email:
+        subject: "Gift Card"
