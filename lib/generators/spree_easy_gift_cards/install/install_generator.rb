@@ -29,7 +29,7 @@ module SpreeEasyGiftCards
       end
 
       def copy_initializer
-        copy_file "spree_easy_gift_card.rb", "config/initializers/spree_easy_gift_card.rb"
+        copy_file "spree_easy_gift_cards.rb", "config/initializers/spree_easy_gift_cards.rb"
       end
     end
   end
