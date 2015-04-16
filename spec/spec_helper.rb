@@ -81,7 +81,7 @@ RSpec.configure do |config|
 
   # After each spec clean the database.
   config.after :each do
-    DatabaseCleaner.clean_with :truncation
+    DatabaseCleaner.clean_with(RSpec.current_example.metadata[:js] ? :truncation : :transaction)
   end
 
   config.fail_fast = ENV['FAIL_FAST'] || false
