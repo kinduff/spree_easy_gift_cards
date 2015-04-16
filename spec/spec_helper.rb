@@ -34,6 +34,9 @@ require 'spree/testing_support/url_helpers'
 # Requires factories defined in lib/spree_easy_gift_cards/factories.rb
 require 'spree_easy_gift_cards/factories'
 
+# Uses webkit javascript driver
+Capybara.javascript_driver = :webkit
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
