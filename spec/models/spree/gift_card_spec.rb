@@ -20,6 +20,30 @@ RSpec.describe Spree::GiftCard, type: :model do
     expect(gift_card.user).to eq(user)
   end
 
+  it "returns false if not redeemed" do
+    expect(gift_card.redeemed?).to be_falsy
+  end
+
+  context :redeemed? do
+    let!(:adjustment) { Spree::Adjustment.create!(label: 'Promotion (Gift Card)', amount: (gift_card.amount*-1), order: order, adjustable: order, source_type: "Spree::PromotionAction", adjustable_type: "Spree::Order") }
+    before do
+      gift_card.activate
+      order.adjustments << adjustment
+      order.promotions << Spree::Promotion.first
+    end
+
+    it "returns true if redeemed" do
+      expect(gift_card.redeemed?).to be_truthy
+    end
+
+    it "returns the order that redeemed" do
+      expect(gift_card.order).to eq(order)
+    end
+    it "returns the user that redeemed" do
+      expect(gift_card.redeemed_by_user).to eq(user)
+    end
+  end
+
   context :recipient_email do
     it "returns recipient_email if available" do
       expect(gift_card.recipient_email).to eq(gift_card.data[:recipient_email])

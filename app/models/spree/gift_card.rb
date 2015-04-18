@@ -33,6 +33,19 @@ class Spree::GiftCard < ActiveRecord::Base
     self.line_item.price
   end
 
+  def redeemed?
+    !Spree::Promotion.find_by(code: code).nil?
+  end
+
+  def redeemed_by_order
+    Spree::Promotion.find_by(code: code).try(:orders).try(:first)
+  end
+
+  def redeemed_by_user
+    order = Spree::Promotion.find_by(code: code).try(:orders).try(:first)
+    (order.try(:user) || order.try(:email)) || nil
+  end
+
   private
     def verify_data
       config_keys = SpreeEasyGiftCards.fields.keys
