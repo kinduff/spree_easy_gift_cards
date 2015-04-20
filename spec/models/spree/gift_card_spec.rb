@@ -24,6 +24,15 @@ RSpec.describe Spree::GiftCard, type: :model do
     expect(gift_card.redeemed?).to be_falsy
   end
 
+  it "returns false if not activated" do
+    expect(gift_card.activated?).to be_falsy
+  end
+
+  it "returns true if activated" do
+    gift_card.activate
+    expect(gift_card.activated?).to be_truthy
+  end
+
   context :redeemed? do
     let!(:adjustment) { Spree::Adjustment.create!(label: 'Promotion (Gift Card)', amount: (gift_card.amount*-1), order: order, adjustable: order, source_type: "Spree::PromotionAction", adjustable_type: "Spree::Order") }
     before do

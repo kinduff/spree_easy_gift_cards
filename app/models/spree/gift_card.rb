@@ -30,6 +30,10 @@ class Spree::GiftCard < ActiveRecord::Base
     Spree::GiftCardMailer.gift_card_email(self).deliver_now
   end
 
+  def activated?
+    !(self.promotion.nil? && self.code.nil?)
+  end
+
   def amount
     self.line_item.price
   end
