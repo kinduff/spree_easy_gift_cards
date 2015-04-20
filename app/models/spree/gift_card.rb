@@ -1,5 +1,6 @@
 class Spree::GiftCard < ActiveRecord::Base
   belongs_to :line_item, class_name: 'Spree::LineItem'
+  belongs_to :promotion, class_name: 'Spree::Promotion'
 
   store :data
 
@@ -38,11 +39,11 @@ class Spree::GiftCard < ActiveRecord::Base
   end
 
   def redeemed_by_order
-    Spree::Promotion.find_by(code: code).try(:orders).try(:first)
+    promotion.try(:orders).try(:first)
   end
 
   def redeemed_by_user
-    order = Spree::Promotion.find_by(code: code).try(:orders).try(:first)
+    order = redeemed_by_order
     (order.try(:user) || order.try(:email)) || nil
   end
 
@@ -69,7 +70,7 @@ class Spree::GiftCard < ActiveRecord::Base
     end
 
     def generate_promotion
-      promo = Spree::Promotion.create(
+      promo = self.create_promotion(
         name: "Gift Card",
         description: "$#{self.amount} Gift Card to: #{self.recipient_email} - Automatically Generated",
         match_policy: 'all',
@@ -80,6 +81,7 @@ class Spree::GiftCard < ActiveRecord::Base
         Spree::Promotion::Actions::CreateAdjustment.create(
           calculator: Spree::Calculator::FlatRate.new(preferred_amount: self.amount)
         )
+      self.save!
       return promo
     end
 end

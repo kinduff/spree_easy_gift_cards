@@ -29,7 +29,7 @@ RSpec.describe Spree::GiftCard, type: :model do
     before do
       gift_card.activate
       order.adjustments << adjustment
-      order.promotions << Spree::Promotion.first
+      order.promotions << gift_card.promotion
     end
 
     it "returns true if redeemed" do
@@ -39,8 +39,13 @@ RSpec.describe Spree::GiftCard, type: :model do
     it "returns the order that redeemed" do
       expect(gift_card.order).to eq(order)
     end
+
     it "returns the user that redeemed" do
       expect(gift_card.redeemed_by_user).to eq(user)
+    end
+
+    it "returns a promotion" do
+      expect(gift_card.promotion).to_not be_nil
     end
   end
 
