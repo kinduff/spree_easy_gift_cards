@@ -34,11 +34,15 @@ RSpec.describe Spree::GiftCard, type: :model do
   end
 
   context :redeemed? do
-    let!(:adjustment) { Spree::Adjustment.create!(label: 'Promotion (Gift Card)', amount: (gift_card.amount*-1), order: order, adjustable: order, source_type: "Spree::PromotionAction", adjustable_type: "Spree::Order") }
+    let(:user) { create :user }
+    let(:order) { create :order_with_line_items, user: user }
+
     before do
+      order.coupon_code = gift_card.code
+      order.save
+      order.finalize!
       gift_card.activate
-      order.adjustments << adjustment
-      order.promotions << gift_card.promotion
+      gift_card.promotion.activate({order: order, user: user})
     end
 
     it "returns true if redeemed" do

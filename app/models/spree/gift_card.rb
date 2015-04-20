@@ -39,7 +39,7 @@ class Spree::GiftCard < ActiveRecord::Base
   end
 
   def redeemed?
-    !Spree::Promotion.find_by(code: code).nil?
+    promotion ? (promotion.credits_count >= promotion.usage_limit) : false
   end
 
   def redeemed_by_order
