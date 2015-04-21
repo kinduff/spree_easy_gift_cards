@@ -23,7 +23,7 @@ Spree::LineItem.class_eval do
     gift_card_data = opts.delete('gift_card') || opts.delete(:gift_card)
 
     if gift_card? and gift_card_data
-      line_gift_card = self.gift_card || self.build_gift_card
+      line_gift_card = self.gift_card || self.build_gift_card(variant: self.variant)
       line_gift_card.data = gift_card_data
     end
 

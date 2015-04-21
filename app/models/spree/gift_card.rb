@@ -1,4 +1,5 @@
 class Spree::GiftCard < ActiveRecord::Base
+  belongs_to :variant, class_name: 'Spree::Variant'
   belongs_to :line_item, class_name: 'Spree::LineItem'
   belongs_to :promotion, class_name: 'Spree::Promotion'
 

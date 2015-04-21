@@ -6,7 +6,7 @@ RSpec.describe Spree::GiftCard, type: :model do
   let(:product) { create :product, slug: 'gift-card' }
   let(:variant) { create :variant, product: product }
   let(:line_item) { create :line_item, order: order, variant: variant }
-  let(:gift_card) { create :gift_card, line_item: line_item }
+  let(:gift_card) { create :gift_card, line_item: line_item, variant: variant }
 
   it "belongs to a line_item" do
     expect(gift_card.line_item).to eq(line_item)
@@ -18,6 +18,10 @@ RSpec.describe Spree::GiftCard, type: :model do
 
   it "returns a user" do
     expect(gift_card.user).to eq(user)
+  end
+
+  it "returns a variant" do
+    expect(gift_card.variant).to eq(variant)
   end
 
   it "returns false if not redeemed" do
