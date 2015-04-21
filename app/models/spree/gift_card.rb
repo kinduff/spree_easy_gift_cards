@@ -7,6 +7,7 @@ class Spree::GiftCard < ActiveRecord::Base
   validate :verify_data
 
   before_save :sanitize_data
+  before_save :update_promotion_if_code_is_changed
 
   def order
     line_item.order
@@ -74,18 +75,24 @@ class Spree::GiftCard < ActiveRecord::Base
     end
 
     def generate_promotion
-      promo = self.create_promotion(
+      self.promotion = build_promotion(
         name: "Gift Card",
         description: "$#{self.amount} Gift Card to: #{self.recipient_email} - Automatically Generated",
         match_policy: 'all',
         usage_limit: 1,
         code: self.code
       )
-      promo.promotion_actions <<
+      self.promotion.promotion_actions <<
         Spree::Promotion::Actions::CreateAdjustment.create(
           calculator: Spree::Calculator::FlatRate.new(preferred_amount: self.amount)
         )
       self.save!
-      return promo
+      return self.promotion
+    end
+
+    def update_promotion_if_code_is_changed
+      if self.code_changed? and self.promotion and !self.promotion.new_record?
+        self.promotion.update_attribute(:code, self.code)
+      end
     end
 end

@@ -33,6 +33,13 @@ RSpec.describe Spree::GiftCard, type: :model do
     expect(gift_card.activated?).to be_truthy
   end
 
+  it "updates promotion code if gift card code is changed" do
+    gift_card.activate
+    new_code = 'tarantino'
+    gift_card.update_attribute(:code, new_code)
+    expect(gift_card.promotion.code).to eq(new_code)
+  end
+
   context :redeemed? do
     let(:user) { create :user }
     let(:order) { create :order_with_line_items, user: user }
