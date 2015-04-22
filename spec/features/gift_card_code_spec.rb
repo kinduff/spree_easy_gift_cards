@@ -13,7 +13,7 @@ describe "Gift Card Code", type: :feature, inaccessible: true, js: true do
   let(:user) { create :user }
   let(:order) { create :order, user: user }
   let(:line_item) { create :line_item, order: order, variant: product.variants.first }
-  let(:gift_card) { create :gift_card, line_item: line_item }
+  let(:gift_card) { create :gift_card, line_item: line_item, variant: line_item.variant }
 
   before do
     SpreeEasyGiftCards::Generators::GiftCardProductGenerator.start

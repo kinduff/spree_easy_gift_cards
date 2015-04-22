@@ -85,7 +85,7 @@ RSpec.describe Spree::GiftCard, type: :model do
   end
 
   it "returns the amount" do
-    expect(gift_card.amount).to eq(line_item.price)
+    expect(gift_card.amount).to eq(variant.price)
   end
 
   context :activate do

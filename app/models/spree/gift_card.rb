@@ -11,7 +11,7 @@ class Spree::GiftCard < ActiveRecord::Base
   before_save :update_promotion_if_code_is_changed
 
   def order
-    line_item.order
+    self.line_item.order
   end
 
   def user
@@ -23,7 +23,7 @@ class Spree::GiftCard < ActiveRecord::Base
   end
 
   def recipient_email
-    data[:recipient_email] || user.email
+    self.data[:recipient_email] || user.email
   end
 
   def activate
@@ -37,15 +37,15 @@ class Spree::GiftCard < ActiveRecord::Base
   end
 
   def amount
-    self.line_item.price
+    self.variant.price
   end
 
   def redeemed?
-    promotion ? (promotion.credits_count >= promotion.usage_limit) : false
+    self.promotion ? (self.promotion.credits_count >= self.promotion.usage_limit) : false
   end
 
   def redeemed_by_order
-    promotion.try(:orders).try(:first)
+    self.promotion.try(:orders).try(:first)
   end
 
   def redeemed_by_user

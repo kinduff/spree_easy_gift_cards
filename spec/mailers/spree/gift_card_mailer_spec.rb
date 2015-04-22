@@ -7,7 +7,7 @@ RSpec.describe Spree::GiftCardMailer do
     let(:product) { create :product, slug: 'gift-card' }
     let(:variant) { create :variant, product: product }
     let(:line_item) { create :line_item, order: order, variant: variant }
-    let(:gift_card) { create :gift_card, line_item: line_item }
+    let(:gift_card) { create :gift_card, line_item: line_item, variant: variant }
     let(:mail) { Spree::GiftCardMailer.gift_card_email(gift_card) }
 
     it 'renders the subject' do
