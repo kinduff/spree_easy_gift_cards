@@ -10,32 +10,33 @@ SpreeEasyGiftCards.configuration do |config|
   
   # ==> Gift Card frontend fields
   # Gift card fields the user is going to personalize. First key is the default field name.
-  # Inner hash accepts mandatory label and tag type for the input tag.
-  # Inside options you can add any HTML attributes options you need.
-  # The recipient_email key tag is highly recommended since is the recipient email we're
-  # going to send the gift card by default.
+  # Inner hash accepts mandatory tag type for the input tag.
+  # Accepts same options as content_tag + label_tag for :label key
   config.fields = {
     :recipient_name => {
-      :label => "Recipient name",
+      :label => 'Recipient name',
       :tag => 'input',
       :options => {
-        :type => "text",
-        :required => true
+        :type => 'text',
+        :required => true,
+        :class => 'form-control'
       }
     },
     :recipient_email => {
-      :label => "Recipient email",
+      :label => 'Recipient email',
       :tag => 'input',
       :options => {
-        :type => "email",
-        :required => true
+        :type => 'email',
+        :required => true,
+        :class => 'form-control'
       }
     },
     :message => {
-      :label => "Message",
-      :tag => "textarea",
+      :label => 'Message',
+      :tag => 'textarea',
       :options => {
-        :required => true
+        :required => true,
+        :class => 'form-control'
       }
     }
   }

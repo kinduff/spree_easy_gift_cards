@@ -4,8 +4,7 @@
       <div data-hook='gift_card_fields' class='col-md-6'>
         <% SpreeEasyGiftCards.fields.each do |field, attributes| %>
           <div class='form-group'>
-            <label for='options_gift_card_<%=field %>'><%= attributes[:label] %></label>
-            <%= content_tag(attributes[:tag], nil, { name: 'options[gift_card]['+field.to_s+']', class: 'form-control' }.merge(attributes[:options] || {}) ) { attributes[:options][:content] } %>
+            <%= gift_card_fields(field, attributes) %>
           </div>
         <% end %>
         <%= hidden_field_tag :quantity, 1 %>
