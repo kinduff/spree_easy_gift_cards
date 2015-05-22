@@ -1,7 +1,7 @@
-SpreeEasyGiftCards
+[WIP] SpreeEasyGiftCards
 ==================
 
-Introduction goes here.
+Work in progress. Let me finish it.
 
 Installation
 ------------
@@ -36,4 +36,4 @@ Simply add this require statement to your spec_helper:
 require 'spree_easy_gift_cards/factories'
 ```
 
-Copyright (c) 2015 [name of extension creator], released under the New BSD License
+Copyright (c) 2015 Alejandro AR, released under the New BSD License
