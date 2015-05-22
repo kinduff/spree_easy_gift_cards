@@ -1,0 +1,78 @@
+<div data-hook="admin_gift_card_form_fields">
+  <div class="row">
+    <div class="col-md-8" data-hook="admin_gift_card_form_left">
+      <div data-hook="admin_gift_card_form_code">
+        <%= f.field_container :code, class: ['form-group'] do %>
+          <%= f.label :code, raw(Spree.t(:code) + content_tag(:span, ' *', class: 'required')) %>
+          <%= f.text_field :code, class: 'form-control title' %>
+          <%= f.error_message_on :code %>
+        <% end %>
+        <hr />
+        <h4>User data</h4>
+        <% fields = gift_card_merge_as_values(f.object.data, SpreeEasyGiftCards.fields) %>
+        <% fields.each do |field, attributes| %>
+          <div class='form-group'>
+            <label for='options_gift_card_<%=field %>'><%= attributes[:label] %></label>
+            <%= content_tag(attributes[:tag], nil, { value: attributes[:value], name: 'gift_card[data]['+field.to_s+']', class: 'form-control' }.merge(attributes[:options] || {}) ) { attributes[:value] if attributes[:tag] == "textarea" } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-4" data-hook="admin_gift_card_form_right">
+      <% unless f.object.new_record? %>
+        <table class="table">
+          <tr>
+            <th>Activated</th>
+            <td class="activated">
+              <% if @gift_card.activated? %>
+                <p><span class="label label-complete">Activated</span></p>
+              <% else %>
+                <p><span class="label label-error">Not Activated</span></p>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th>Amount</th>
+            <td><%= Spree::Money.new(@gift_card.amount) %></td>
+          </tr>
+          <tr>
+            <th>Promotion</th>
+            <td class="promotion"><%= @gift_card.promotion ? link_to("Promotion", edit_admin_promotion_path(@gift_card.promotion)) : "N/A" %></td>
+          </tr>
+          <tr>
+            <th>From Order</th>
+            <td><%= link_to @gift_card.order.number, edit_admin_order_path(@gift_card.order) %></td>
+          </tr>
+          <tr>
+            <th>Reedemed?</th>
+            <td class="redeemed">
+              <% if @gift_card.try(:redeemed?) %>
+                <p><span class="label label-complete">Redeemed</span></p>
+              <% else %>
+                <p><span class="label label-warning">Not Redeemed</span></p>
+              <% end %>
+            </td>
+          </tr>
+          <% if @gift_card.redeemed? %>
+            <% if @gift_card.redeemed_by_order %>
+              <tr>
+                <th>Redeemed by Order</th>
+                <td><%= link_to @gift_card.redeemed_by_order.number, edit_admin_order_path(@gift_card.redeemed_by_order) %></td>
+              </tr>
+            <% end %>
+            <% if @gift_card.redeemed_by_user %>
+              <tr>
+                <th>Redeemed by User</th>
+                <% if @gift_card.redeemed_by_user.try(:email) %>
+                  <td><%= link_to @gift_card.redeemed_by_user.try(:email), edit_admin_user_path(@gift_card.redeemed_by_user) %></td>
+                <% else %>
+                  <td><%= mail_to @gift_card.redeemed_by_user, @gift_card.redeemed_by_user %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          <% end %>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

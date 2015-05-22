@@ -9,5 +9,10 @@ Spree::BaseHelper.class_eval do
       concat label_tag("options_gift_card_#{field}", attributes[:label]) if attributes[:label]
       concat content_tag(attributes[:tag], attributes[:content_or_options_with_block], ({ name: 'options[gift_card]['+field.to_s+']' }.merge(attributes[:options] || {}) ) )
     end
+
+  def gift_card_merge_as_values(from, to)
+    data = to
+    from.each{|k,v| data[k].merge!({value: v}) }
+    return data
   end
 end
